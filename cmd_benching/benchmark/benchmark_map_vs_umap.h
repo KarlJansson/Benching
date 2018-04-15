@@ -1,11 +1,12 @@
 #include <benchmark/benchmark.h>
+#include <algorithm>
 #include <map>
 #include <unordered_map>
 
 template <typename T>
 void update(benchmark::State& state) {
   T map;
-  for (auto i = 0; i < state.range(0); ++i) map[i] = i;
+  for (auto i = state.range(0); --i;) map[i] = i;
 
   auto key = 0;
   for (auto _ : state) {
@@ -16,14 +17,14 @@ void update(benchmark::State& state) {
 }
 
 template <typename T>
-void lookup_exists(benchmark::State& state) {
+void lookup_existing(benchmark::State& state) {
   T map;
-  for (auto i = 0; i < state.range(0); ++i) map[i] = i;
+  for (auto i = state.range(0); --i;) map[i] = i;
 
-  auto key = 0;
+  size_t key = 0;
   for (auto _ : state) {
-    auto r = map.find(key++ % state.range(0));
-    benchmark::DoNotOptimize(r);
+    auto itr = map.find(key++ % state.range(0));
+    benchmark::DoNotOptimize(itr);
     benchmark::ClobberMemory();
   }
 }
@@ -31,7 +32,7 @@ void lookup_exists(benchmark::State& state) {
 template <typename T>
 void lookup_missing(benchmark::State& state) {
   T map;
-  for (auto i = 0; i < state.range(0); ++i) map[i] = i;
+  for (auto i = state.range(0); --i;) map[i] = i;
 
   auto key = 0;
   for (auto _ : state) {
@@ -45,8 +46,9 @@ BENCHMARK_TEMPLATE(lookup_missing, std::map<size_t, size_t>)->Range(8, 8 << 10);
 BENCHMARK_TEMPLATE(lookup_missing, std::unordered_map<size_t, size_t>)
     ->Range(8, 8 << 10);
 
-BENCHMARK_TEMPLATE(lookup_exists, std::map<size_t, size_t>)->Range(8, 8 << 10);
-BENCHMARK_TEMPLATE(lookup_exists, std::unordered_map<size_t, size_t>)
+BENCHMARK_TEMPLATE(lookup_existing, std::map<size_t, size_t>)
+    ->Range(8, 8 << 10);
+BENCHMARK_TEMPLATE(lookup_existing, std::unordered_map<size_t, size_t>)
     ->Range(8, 8 << 10);
 
 BENCHMARK_TEMPLATE(update, std::map<size_t, size_t>)->Range(8, 8 << 10);

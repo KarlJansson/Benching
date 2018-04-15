@@ -6,6 +6,8 @@ cmake_minimum_required(VERSION 3.6)
 set(cpp_files
   ./source/main.cc
   ./benchmark/benchmark_map_vs_umap.h
+  ./benchmark/benchmark_sptr_vs_uptr.h
+  ./benchmark/benchmark_vector_vs_list.h
 )
 
 source_group(source FILES
@@ -14,6 +16,8 @@ source_group(source FILES
 
 source_group(benchmark FILES
   ./benchmark/benchmark_map_vs_umap.h
+  ./benchmark/benchmark_sptr_vs_uptr.h
+  ./benchmark/benchmark_vector_vs_list.h
 )
 
 add_executable(benching ${cpp_files})
