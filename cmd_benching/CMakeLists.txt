@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 3.6)
 
 set(cpp_files
   ./source/main.cc
+  ./benchmark/benchmark_map_vs_umap.h
 )
 
 source_group(source FILES
@@ -12,6 +13,7 @@ source_group(source FILES
 )
 
 source_group(benchmark FILES
+  ./benchmark/benchmark_map_vs_umap.h
 )
 
 add_executable(benching ${cpp_files})
