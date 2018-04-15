@@ -1,8 +1,10 @@
+#pragma once
 #include <benchmark/benchmark.h>
 #include <algorithm>
 #include <map>
 #include <unordered_map>
 
+namespace map_vs_unordered {
 template <typename T>
 void update(benchmark::State& state) {
   T map;
@@ -41,16 +43,4 @@ void lookup_missing(benchmark::State& state) {
     benchmark::ClobberMemory();
   }
 }
-
-BENCHMARK_TEMPLATE(lookup_missing, std::map<size_t, size_t>)->Range(8, 8 << 10);
-BENCHMARK_TEMPLATE(lookup_missing, std::unordered_map<size_t, size_t>)
-    ->Range(8, 8 << 10);
-
-BENCHMARK_TEMPLATE(lookup_existing, std::map<size_t, size_t>)
-    ->Range(8, 8 << 10);
-BENCHMARK_TEMPLATE(lookup_existing, std::unordered_map<size_t, size_t>)
-    ->Range(8, 8 << 10);
-
-BENCHMARK_TEMPLATE(update, std::map<size_t, size_t>)->Range(8, 8 << 10);
-BENCHMARK_TEMPLATE(update, std::unordered_map<size_t, size_t>)
-    ->Range(8, 8 << 10);
+}  // namespace map_vs_unordered

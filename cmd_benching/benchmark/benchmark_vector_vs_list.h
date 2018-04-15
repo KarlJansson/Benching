@@ -1,8 +1,10 @@
+#pragma once
 #include <benchmark/benchmark.h>
 #include <algorithm>
 #include <list>
 #include <vector>
 
+namespace vector_vs_list {
 template <typename T>
 void push_back(benchmark::State& state) {
   T col;
@@ -40,12 +42,4 @@ void find_missing(benchmark::State& state) {
     benchmark::ClobberMemory();
   }
 }
-
-BENCHMARK_TEMPLATE(find_missing, std::vector<size_t>)->Range(8, 8 << 10);
-BENCHMARK_TEMPLATE(find_missing, std::list<size_t>)->Range(8, 8 << 10);
-
-BENCHMARK_TEMPLATE(find_existing, std::vector<size_t>)->Range(8, 8 << 10);
-BENCHMARK_TEMPLATE(find_existing, std::list<size_t>)->Range(8, 8 << 10);
-
-BENCHMARK_TEMPLATE(push_back, std::vector<size_t>);
-BENCHMARK_TEMPLATE(push_back, std::list<size_t>);
+}  // namespace vector_vs_list

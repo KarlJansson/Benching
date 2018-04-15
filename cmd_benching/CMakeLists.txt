@@ -8,16 +8,18 @@ set(cpp_files
   ./benchmark/benchmark_map_vs_umap.h
   ./benchmark/benchmark_sptr_vs_uptr.h
   ./benchmark/benchmark_vector_vs_list.h
-)
-
-source_group(source FILES
-  ./source/main.cc
+  ./benchmark/benchmark_main.h
 )
 
 source_group(benchmark FILES
   ./benchmark/benchmark_map_vs_umap.h
   ./benchmark/benchmark_sptr_vs_uptr.h
   ./benchmark/benchmark_vector_vs_list.h
+  ./benchmark/benchmark_main.h
+)
+
+source_group(source FILES
+  ./source/main.cc
 )
 
 add_executable(benching ${cpp_files})

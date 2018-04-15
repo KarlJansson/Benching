@@ -1,6 +1,8 @@
+#pragma once
 #include <benchmark/benchmark.h>
 #include <memory>
 
+namespace shared_vs_unique {
 template <typename T>
 void create_destroy(benchmark::State& state) {
   for (auto _ : state) {
@@ -9,6 +11,4 @@ void create_destroy(benchmark::State& state) {
     benchmark::ClobberMemory();
   }
 }
-
-BENCHMARK_TEMPLATE(create_destroy, std::unique_ptr<size_t>);
-BENCHMARK_TEMPLATE(create_destroy, std::shared_ptr<size_t>);
+}  // namespace shared_vs_unique
