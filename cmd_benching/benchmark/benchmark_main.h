@@ -12,6 +12,10 @@
 namespace shared_vs_unique {
 BENCHMARK_TEMPLATE(create_destroy, std::unique_ptr<size_t>);
 BENCHMARK_TEMPLATE(create_destroy, std::shared_ptr<size_t>);
+BENCHMARK(make_shared_create_destroy);
+BENCHMARK(make_unique_create_destroy);
+BENCHMARK(move_unique_ptr);
+BENCHMARK(copy_shared_ptr);
 }  // namespace shared_vs_unique
 #endif
 
