@@ -1,15 +1,28 @@
 #pragma once
 #include <benchmark/benchmark.h>
+#include "benchmark_casting.h"
 #include "benchmark_map_vs_umap.h"
 #include "benchmark_sptr_vs_uptr.h"
 #include "benchmark_vector_vs_list.h"
 
+#define _CASTING_
 #define _SHARED_VS_UNIQUE_
 #define _MAP_VS_UNORDERED_
 #define _VECTOR_VS_LIST_
 
+#ifdef _CASTING_
+namespace casting {
+BENCHMARK(____Casting_Benchmarks____);
+BENCHMARK(static_casting);
+BENCHMARK(dynamic_casting);
+BENCHMARK(static_pointer_casting);
+BENCHMARK(dynamic_pointer_casting);
+}  // namespace casting
+#endif
+
 #ifdef _SHARED_VS_UNIQUE_
 namespace shared_vs_unique {
+BENCHMARK(____Shared_vs_Unique_Benchmarks____);
 BENCHMARK_TEMPLATE(create_destroy, std::unique_ptr<size_t>);
 BENCHMARK_TEMPLATE(create_destroy, std::shared_ptr<size_t>);
 BENCHMARK(make_shared_create_destroy);
@@ -21,6 +34,7 @@ BENCHMARK(copy_shared_ptr);
 
 #ifdef _MAP_VS_UNORDERED_
 namespace map_vs_unordered {
+BENCHMARK(____Map_vs_Unordered_Benchmarks____);
 BENCHMARK_TEMPLATE(lookup_missing, std::map<size_t, size_t>)->Range(8, 8 << 10);
 BENCHMARK_TEMPLATE(lookup_missing, std::unordered_map<size_t, size_t>)
     ->Range(8, 8 << 10);
@@ -38,6 +52,7 @@ BENCHMARK_TEMPLATE(update, std::unordered_map<size_t, size_t>)
 
 #ifdef _VECTOR_VS_LIST_
 namespace vector_vs_list {
+BENCHMARK(____Vector_vs_List_Benchmarks____);
 BENCHMARK_TEMPLATE(find_missing, std::vector<size_t>)->Range(8, 8 << 10);
 BENCHMARK_TEMPLATE(find_missing, std::list<size_t>)->Range(8, 8 << 10);
 

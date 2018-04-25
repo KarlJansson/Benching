@@ -5,6 +5,11 @@
 #include <vector>
 
 namespace vector_vs_list {
+void ____Vector_vs_List_Benchmarks____(benchmark::State& state) {
+  for (auto _ : state) {
+  }
+}
+
 template <typename T>
 void push_back(benchmark::State& state) {
   T col;

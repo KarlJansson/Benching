@@ -5,6 +5,11 @@
 #include <unordered_map>
 
 namespace map_vs_unordered {
+void ____Map_vs_Unordered_Benchmarks____(benchmark::State& state) {
+  for (auto _ : state) {
+  }
+}
+
 template <typename T>
 void update(benchmark::State& state) {
   T map;

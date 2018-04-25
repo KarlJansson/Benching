@@ -3,6 +3,11 @@
 #include <memory>
 
 namespace shared_vs_unique {
+void ____Shared_vs_Unique_Benchmarks____(benchmark::State& state) {
+  for (auto _ : state) {
+  }
+}
+
 template <typename T>
 void create_destroy(benchmark::State& state) {
   for (auto _ : state) {
