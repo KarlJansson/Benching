@@ -13,6 +13,8 @@
 #ifdef _CASTING_
 namespace casting {
 BENCHMARK(____Casting_Benchmarks____);
+BENCHMARK(print_nopoly);
+BENCHMARK(print_poly);
 BENCHMARK(static_casting);
 BENCHMARK(dynamic_casting);
 BENCHMARK(static_pointer_casting);

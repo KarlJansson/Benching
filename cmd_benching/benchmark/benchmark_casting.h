@@ -2,6 +2,7 @@
 #include <benchmark/benchmark.h>
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 namespace casting {
 void ____Casting_Benchmarks____(benchmark::State &state) {
@@ -9,41 +10,68 @@ void ____Casting_Benchmarks____(benchmark::State &state) {
   }
 }
 
+class Base {
+ public:
+};
+
+template <typename T>
+class NoPoly_Template : public Base {
+ public:
+  int print() { return static_cast<T *>(this)->print(); }
+};
+
+class A_NoPoly : public NoPoly_Template<A_NoPoly> {
+ public:
+  int print() { return 1; }
+};
+
+class B_NoPoly : public NoPoly_Template<B_NoPoly> {
+ public:
+  int print() { return 1; }
+};
+
 class A {
  public:
   virtual ~A() {}
+  virtual int print() = 0;
 };
 
 class B1 : public A {
  public:
-  virtual ~B1() {}
-  int print() { return 1; }
+  int print() override { return 1; }
 };
 
 class B2 : public A {
  public:
-  virtual ~B2() {}
-  int print() { return 2; }
-};
-
-class C1 : public B1 {
- public:
-};
-
-class C2 : public B1 {
- public:
-};
-
-class C3 : public B2 {
- public:
+  int print() override { return 2; }
 };
 
 volatile static int count = 0;
-void static_casting(benchmark::State &state) {
-  A *raw_ptr = new C1;
+void print_nopoly(benchmark::State &state) {
   count = 0;
+  auto a_nopoly = std::make_unique<A_NoPoly>();
   for (auto _ : state) {
-    auto casted_ptr = static_cast<C1 *>(raw_ptr);
+    count += a_nopoly->print();
+    benchmark::DoNotOptimize(count);
+    benchmark::ClobberMemory();
+  }
+}
+
+void print_poly(benchmark::State &state) {
+  count = 0;
+  std::unique_ptr<A> a_poly = std::make_unique<B1>();
+  for (auto _ : state) {
+    count += a_poly->print();
+    benchmark::DoNotOptimize(count);
+    benchmark::ClobberMemory();
+  }
+}
+
+void static_casting(benchmark::State &state) {
+  count = 0;
+  A *raw_ptr = new B1;
+  for (auto _ : state) {
+    auto casted_ptr = static_cast<B1 *>(raw_ptr);
     count += casted_ptr->print();
     benchmark::DoNotOptimize(casted_ptr);
     benchmark::ClobberMemory();
@@ -52,10 +80,10 @@ void static_casting(benchmark::State &state) {
 }
 
 void dynamic_casting(benchmark::State &state) {
-  A *raw_ptr = new C1;
   count = 0;
+  A *raw_ptr = new B1;
   for (auto _ : state) {
-    auto casted_ptr = dynamic_cast<C1 *>(raw_ptr);
+    auto casted_ptr = dynamic_cast<B1 *>(raw_ptr);
     count += casted_ptr->print();
     benchmark::DoNotOptimize(casted_ptr);
     benchmark::ClobberMemory();
@@ -64,10 +92,10 @@ void dynamic_casting(benchmark::State &state) {
 }
 
 void dynamic_pointer_casting(benchmark::State &state) {
-  auto ptr = std::make_shared<C2>();
   count = 0;
+  auto ptr = std::make_shared<B2>();
   for (auto _ : state) {
-    auto casted_ptr = std::dynamic_pointer_cast<C2>(ptr);
+    auto casted_ptr = std::dynamic_pointer_cast<B2>(ptr);
     count += casted_ptr->print();
     benchmark::DoNotOptimize(casted_ptr);
     benchmark::ClobberMemory();
@@ -75,10 +103,10 @@ void dynamic_pointer_casting(benchmark::State &state) {
 }
 
 void static_pointer_casting(benchmark::State &state) {
-  auto ptr = std::make_shared<C2>();
   count = 0;
+  auto ptr = std::make_shared<B2>();
   for (auto _ : state) {
-    auto casted_ptr = std::static_pointer_cast<C2>(ptr);
+    auto casted_ptr = std::static_pointer_cast<B2>(ptr);
     count += casted_ptr->print();
     benchmark::DoNotOptimize(casted_ptr);
     benchmark::ClobberMemory();
