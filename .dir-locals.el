@@ -1,1 +1,1 @@
-((c++-mode (helm-make-build-dir . "../BuildFiles/Benching")))
+((c++-mode (helm-make-build-dir . "./_build_release_")))
