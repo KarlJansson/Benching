@@ -1,1 +1,7 @@
 cpp_version : c++2a -O3 -Wall -Werror
+
+{
+	name : "tbb/tbb.h"
+  lib_dir : "tbb" 
+  lib_dir : "libpthread.so" 
+}

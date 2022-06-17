@@ -19,6 +19,7 @@ include_directories(benchdriver
 target_link_libraries(benchdriver
   libbenchmark.so
   libpthread.so
+  tbb
 )
 
 add_dependencies(benchdriver benchdriver benching ALL_PRE_BUILD)

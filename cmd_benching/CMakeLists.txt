@@ -9,6 +9,7 @@ set(cpp_files
   ./benchmark/benchmark_vector_vs_list.h
   ./benchmark/benchmark_map_vs_umap.h
   ./benchmark/benchmark_sptr_vs_uptr.h
+  ./benchmark/benchmark_tbb_vs_stl.h
   ./benchmark/benchmark_casting.h
 )
 
@@ -17,6 +18,7 @@ source_group(benchmark FILES
   ./benchmark/benchmark_vector_vs_list.h
   ./benchmark/benchmark_map_vs_umap.h
   ./benchmark/benchmark_sptr_vs_uptr.h
+  ./benchmark/benchmark_tbb_vs_stl.h
   ./benchmark/benchmark_casting.h
 )
 
@@ -32,6 +34,8 @@ include_directories(benching
 )
 
 target_link_libraries(benching
+  tbb
+  libpthread.so
 )
 
 add_dependencies(benching ALL_PRE_BUILD)

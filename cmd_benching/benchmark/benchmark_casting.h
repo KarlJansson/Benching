@@ -1,5 +1,6 @@
 #pragma once
 #include <benchmark/benchmark.h>
+
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -46,7 +47,7 @@ class B2 : public A {
   int print() override { return 2; }
 };
 
-volatile static int count = 0;
+static int count = 0;
 void print_nopoly(benchmark::State &state) {
   count = 0;
   auto a_nopoly = std::make_unique<A_NoPoly>();
